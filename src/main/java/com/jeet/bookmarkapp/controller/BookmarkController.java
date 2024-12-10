@@ -36,8 +36,6 @@ public class BookmarkController {
             @RequestParam(defaultValue = "title") String sortBy) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by(sortBy));
         Page<Bookmark> paginatedBookmarks = bookmarkService.getPaginatedBookmarks(pageRequest);
-        System.out.println("----------------------");
-        System.out.println(paginatedBookmarks);
         return ResponseEntity.ok(paginatedBookmarks);
     }
 
