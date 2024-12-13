@@ -7,13 +7,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+
 public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
