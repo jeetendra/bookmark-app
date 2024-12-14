@@ -1,6 +1,7 @@
 package com.jeet.bookmarkapp.controller;
 
 import com.jeet.bookmarkapp.entity.Bookmark;
+import com.jeet.bookmarkapp.entity.User;
 import com.jeet.bookmarkapp.service.BookmarkService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,9 @@ import java.util.List;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 //@WebMvcTest(BookmarkController.class)
-public class BookmarkControllerTest {
+public class BookmarkControllerTest implements AutoCloseable {
+
+    private AutoCloseable mocks;
 
     MockMvc mockMvc;
 
@@ -39,7 +42,7 @@ public class BookmarkControllerTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+        mocks = MockitoAnnotations.openMocks(this);
 
         bookmarkController = new BookmarkController(bookmarkService);
         mockMvc = MockMvcBuilders.standaloneSetup(bookmarkController).build();
@@ -49,8 +52,8 @@ public class BookmarkControllerTest {
     public void testGetAllBookmarks() throws Exception {
         // Mocking bookmark data
         List<Bookmark> bookmarks = new ArrayList<>();
-        bookmarks.add(new Bookmark(1L, "Bookmark 1", "Author 1", "Description 1"));
-        bookmarks.add(new Bookmark(2L, "Bookmark 2", "Author 2", "Description 2"));
+        bookmarks.add(new Bookmark(1L, "Bookmark 1", "Author 1", "Description 1", new User()));
+        bookmarks.add(new Bookmark(2L, "Bookmark 2", "Author 2", "Description 2", new User()));
 
         // Mocking paginated response
         Page<Bookmark> page = new PageImpl<>(
@@ -76,7 +79,7 @@ public class BookmarkControllerTest {
     @Test
     public void testGetBookmarkById() throws Exception {
         Long id = 1L;
-        Bookmark bookmark = new Bookmark(1L, "Bookmark 1", "Author 1", "Description 1");
+        Bookmark bookmark = new Bookmark(1L, "Bookmark 1", "Author 1", "Description 1", new User());
 
         Mockito.when(bookmarkService.findBookmarkById(anyLong())).thenReturn(bookmark);
 
@@ -90,4 +93,7 @@ public class BookmarkControllerTest {
 
     }
 
+    public void close() throws Exception {
+        mocks.close(); // Ensures proper cleanup of resources
+    }
 }

@@ -1,6 +1,7 @@
 package com.jeet.bookmarkapp.service;
 
 import com.jeet.bookmarkapp.entity.Bookmark;
+import com.jeet.bookmarkapp.entity.User;
 import com.jeet.bookmarkapp.repository.BookmarkRepository;
 import com.jeet.bookmarkapp.service.impl.BookmarkServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -20,8 +21,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class BookmarkServiceTest {
+public class BookmarkServiceTest implements AutoCloseable {
 
+    private AutoCloseable mocks;
     @Mock
     private BookmarkRepository bookmarkRepository;
 
@@ -29,7 +31,7 @@ public class BookmarkServiceTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        mocks = MockitoAnnotations.openMocks(this);
         bookmarkService = new BookmarkServiceImpl(bookmarkRepository);
     }
 
@@ -42,9 +44,9 @@ public class BookmarkServiceTest {
     public void testPaginatedBookmark() {
         //ARRANGE
         List<Bookmark> bookmarks = new ArrayList<>();
-        bookmarks.add(new Bookmark(1L, "Bookmark 1", "http://example.com", "Description 1"));
-        bookmarks.add(new Bookmark(2L, "Bookmark 2", "http://example.com", "Description 1"));
-        bookmarks.add(new Bookmark(3L, "Bookmark 3", "http://example.com", "Description 1"));
+        bookmarks.add(new Bookmark(1L, "Bookmark 1", "http://example.com", "Description 1", new User()));
+        bookmarks.add(new Bookmark(2L, "Bookmark 2", "http://example.com", "Description 1", new User()));
+        bookmarks.add(new Bookmark(3L, "Bookmark 3", "http://example.com", "Description 1", new User()));
         Page<Bookmark> bookmarkPage = new PageImpl<>(bookmarks);
         PageRequest pageRequest = PageRequest.of(0, 2);
         Mockito.when(bookmarkRepository.findAll(pageRequest)).thenReturn(bookmarkPage);
@@ -76,5 +78,9 @@ public class BookmarkServiceTest {
         // Assert the result
         Assertions.assertNotNull(createdBookmark);
         Assertions.assertEquals("Spring Documentation", createdBookmark.getTitle());
+    }
+
+    public void close() throws Exception {
+        mocks.close();
     }
 }
