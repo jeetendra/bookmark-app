@@ -21,6 +21,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @Override
     public Bookmark createBookmark(Bookmark bookmark) {
+
         return bookmarkRepository.save(bookmark);
     }
 

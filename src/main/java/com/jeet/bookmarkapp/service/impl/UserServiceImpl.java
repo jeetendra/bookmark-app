@@ -48,6 +48,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User save(User user, Long id) {
 
+        if (id == null) {
+            return userRepository.save(user);
+        }
+
         Optional<User> savedUser = userRepository.findById(id);
         if (savedUser.isPresent()) {
             var dbUser = savedUser.get();
@@ -55,10 +59,9 @@ public class UserServiceImpl implements UserService {
             dbUser.setPassword(user.getPassword());
             dbUser.setEmail(user.getEmail());
             return userRepository.save(dbUser);
-        } else {
-            User userObj = User.builder().name(user.getName()).email(user.getEmail()).username(user.getUsername()).password(user.getPassword()).build();
-            return userRepository.save(userObj);
         }
+        //TODO: throw UserNotFoundException.
+        return null;
     }
 
 

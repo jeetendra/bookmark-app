@@ -16,7 +16,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-
+@Table(name = "bookmarks")
 public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,40 +33,10 @@ public class Bookmark {
     @Column(nullable = false)
     private String description;
 
-//    @Column(nullable = false)
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn()
-//    private User author;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bookmark_id", nullable = false)
+    private User author;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }
