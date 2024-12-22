@@ -1,11 +1,11 @@
 package com.jeet.bookmarkapp.util;
 
-import com.jeet.bookmarkapp.order.Order;
+import com.jeet.bookmarkapp.order.message.OrderCreated;
 
 import java.util.UUID;
 
 public class OrderEventData {
-    public static Order createOrder(UUID id, String item ) {
-        return Order.builder().id(id).item(item).build();
+    public static OrderCreated createOrder(UUID id, String item ) {
+        return OrderCreated.builder().id(id).item(item).build();
     }
 }

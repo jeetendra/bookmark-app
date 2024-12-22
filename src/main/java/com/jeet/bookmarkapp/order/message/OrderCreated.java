@@ -1,4 +1,4 @@
-package com.jeet.bookmarkapp.order;
+package com.jeet.bookmarkapp.order.message;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @ToString
-public class Order {
+public class OrderCreated {
     private UUID id;
     private String item;
 }
