@@ -1,11 +1,17 @@
 package com.jeet.bookmarkapp.service.impl;
 
 import com.jeet.bookmarkapp.entity.Bookmark;
+import com.jeet.bookmarkapp.entity.User;
 import com.jeet.bookmarkapp.repository.BookmarkRepository;
+import com.jeet.bookmarkapp.repository.UserRepository;
 import com.jeet.bookmarkapp.service.BookmarkService;
+import com.jeet.bookmarkapp.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,14 +20,27 @@ import java.util.Optional;
 public class BookmarkServiceImpl implements BookmarkService {
 
     private final BookmarkRepository bookmarkRepository;
+    private final UserService userService;
 
-    public BookmarkServiceImpl(BookmarkRepository bookmarkRepository) {
+
+    public BookmarkServiceImpl(BookmarkRepository bookmarkRepository, UserService userService) {
         this.bookmarkRepository = bookmarkRepository;
+        this.userService = userService;
     }
 
     @Override
+    @Transactional
     public Bookmark createBookmark(Bookmark bookmark) {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+
+        User user = userService.findByUsername(name);
+
+        if(user == null) {
+            throw new RuntimeException("User not found");
+        }
+        bookmark.setAuthor(user);
         return bookmarkRepository.save(bookmark);
     }
 

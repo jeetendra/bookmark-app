@@ -17,7 +17,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        return null;
+        User user = userRepository.findByUsername(username);
+
+//        if (user != null) {
+//            user.getRoles().size(); // Trigger lazy initialization
+//        }
+
+        return user;
     }
 
     @Override

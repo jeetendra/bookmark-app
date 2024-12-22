@@ -3,6 +3,7 @@ package com.jeet.bookmarkapp.service;
 import com.jeet.bookmarkapp.entity.Bookmark;
 import com.jeet.bookmarkapp.entity.User;
 import com.jeet.bookmarkapp.repository.BookmarkRepository;
+import com.jeet.bookmarkapp.repository.UserRepository;
 import com.jeet.bookmarkapp.service.impl.BookmarkServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,12 +28,15 @@ public class BookmarkServiceTest implements AutoCloseable {
     @Mock
     private BookmarkRepository bookmarkRepository;
 
+    @Mock
+    private UserService userService;
+
     private BookmarkService bookmarkService;
 
     @BeforeEach
     public void setUp() {
         mocks = MockitoAnnotations.openMocks(this);
-        bookmarkService = new BookmarkServiceImpl(bookmarkRepository);
+        bookmarkService = new BookmarkServiceImpl(bookmarkRepository, userService);
     }
 
     @Test
