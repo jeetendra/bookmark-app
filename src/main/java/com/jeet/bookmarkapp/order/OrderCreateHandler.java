@@ -17,7 +17,7 @@ public class OrderCreateHandler {
             topics = "order.created",
             groupId = "order.created.consumer"
     )
-    public void listen(String payload) {
+    public void listen(Order payload) {
         log.info("OrderCreateHandler received payload: {}", payload);
         orderService.process(payload);
     }

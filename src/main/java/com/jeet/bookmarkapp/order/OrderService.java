@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class OrderService {
-    public void process(String payload) {
+    public void process(Order payload) {
         log.info("Processing payload: {}", payload);
     }
 }

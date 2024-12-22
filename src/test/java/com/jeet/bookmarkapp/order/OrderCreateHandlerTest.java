@@ -1,8 +1,11 @@
 package com.jeet.bookmarkapp.order;
 
+import com.jeet.bookmarkapp.util.OrderEventData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +23,7 @@ class OrderCreateHandlerTest {
 
     @Test
     void listen() {
-        orderCreateHandler.listen("message");
+        orderCreateHandler.listen(OrderEventData.createOrder(UUID.randomUUID(), UUID.randomUUID().toString()));
         Mockito.verify(orderService, Mockito.times(1));
     }
 }
