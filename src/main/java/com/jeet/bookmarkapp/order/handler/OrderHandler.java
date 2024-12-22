@@ -27,7 +27,7 @@ public class OrderHandler {
         try {
             orderService.process(payload);
         } catch (Exception e) {
-            log.error("OrderHandler error", e);
+            log.error("OrderHandler error");
         }
     }
 }

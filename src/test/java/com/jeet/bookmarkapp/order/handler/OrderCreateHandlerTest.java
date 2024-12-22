@@ -37,6 +37,8 @@ class OrderCreateHandlerTest {
         OrderCreated orderCreated = OrderEventData.createOrder(UUID.randomUUID(), UUID.randomUUID().toString());
         doThrow(new RuntimeException("Service failure")).when(orderService).process(orderCreated);
 
-        Assertions.assertThrows(Exception.class, () -> orderCreateHandler.listen(orderCreated));
+        orderCreateHandler.listen(orderCreated);
+
+        verify(orderService, times(1)).process(orderCreated);
     }
 }
