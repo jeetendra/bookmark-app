@@ -35,7 +35,8 @@ public class KafkaConfig {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class);
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, OrderCreated.class);
+//        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, OrderCreated.class);
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.jeet.bookmarkapp.order.message");
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
