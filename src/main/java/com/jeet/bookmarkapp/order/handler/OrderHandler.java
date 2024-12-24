@@ -1,14 +1,12 @@
 package com.jeet.bookmarkapp.order.handler;
 
-import com.jeet.bookmarkapp.order.service.OrderService;
 import com.jeet.bookmarkapp.order.message.OrderCreated;
+import com.jeet.bookmarkapp.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
 @Slf4j

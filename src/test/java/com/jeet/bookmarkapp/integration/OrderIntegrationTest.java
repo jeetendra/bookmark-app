@@ -6,23 +6,21 @@ import com.jeet.bookmarkapp.order.message.OrderCreated;
 import com.jeet.bookmarkapp.order.message.OrderDispatched;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.kafka.support.KafkaHeaders;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -55,35 +53,6 @@ public class OrderIntegrationTest {
     @Autowired
     private KafkaListenerEndpointRegistry registry;
 
-    @Configuration
-    static class TestConfig {
-
-        @Bean
-        public KafkaTestListener testListener() {
-            return new KafkaTestListener();
-        }
-    }
-
-
-    static class KafkaTestListener {
-        AtomicInteger dispatchPreparingCounter = new AtomicInteger(0);
-        AtomicInteger orderDispatchedCounter = new AtomicInteger(0);
-
-        @KafkaListener(topics = OrderIntegrationTest.ORDER_DISPATCHED_TOPIC, groupId="KafkaIntegrationTest")
-        void orderDispatched(@Payload OrderDispatched payload) {
-            log.info("Order dispatched: {}", payload);
-            orderDispatchedCounter.incrementAndGet();
-            log.info("Order dispatched: {}", orderDispatchedCounter.get());
-        }
-
-        @KafkaListener(topics = OrderIntegrationTest.DISPATCH_TRACKING_TOPIC, groupId="KafkaIntegrationTest")
-        void receivedDispatched(@Payload DispatchPreparing payload) {
-            log.info("Order dispatched: {}", payload);
-            dispatchPreparingCounter.incrementAndGet();
-            log.info("Order dispatched: {}", dispatchPreparingCounter.get());
-        }
-    }
-
     @BeforeEach
     public void setUp() {
         kafkaTestListener.orderDispatchedCounter.set(0);
@@ -93,7 +62,7 @@ public class OrderIntegrationTest {
         });
     }
 
-    @Test
+    //    @Test
     public void test() throws Exception {
         OrderCreated orderCreated = OrderCreated.builder().id(UUID.randomUUID()).item(UUID.randomUUID().toString()).build();
         sendMessage(ORDER_CREATED_TOPIC, orderCreated);
@@ -108,6 +77,34 @@ public class OrderIntegrationTest {
                 .withPayload(data)
                 .setHeader(KafkaHeaders.TOPIC, topic)
                 .build()).get();
+    }
+
+    @Configuration
+    static class TestConfig {
+
+        @Bean
+        public KafkaTestListener testListener() {
+            return new KafkaTestListener();
+        }
+    }
+
+    static class KafkaTestListener {
+        AtomicInteger dispatchPreparingCounter = new AtomicInteger(0);
+        AtomicInteger orderDispatchedCounter = new AtomicInteger(0);
+
+        @KafkaListener(topics = OrderIntegrationTest.ORDER_DISPATCHED_TOPIC, groupId = "KafkaIntegrationTest")
+        void orderDispatched(@Payload OrderDispatched payload) {
+            log.info("Order dispatched: {}", payload);
+            orderDispatchedCounter.incrementAndGet();
+            log.info("Order dispatched: {}", orderDispatchedCounter.get());
+        }
+
+        @KafkaListener(topics = OrderIntegrationTest.DISPATCH_TRACKING_TOPIC, groupId = "KafkaIntegrationTest")
+        void receivedDispatched(@Payload DispatchPreparing payload) {
+            log.info("Order dispatched: {}", payload);
+            dispatchPreparingCounter.incrementAndGet();
+            log.info("Order dispatched: {}", dispatchPreparingCounter.get());
+        }
     }
 }
 

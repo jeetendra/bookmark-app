@@ -2,22 +2,16 @@ package com.jeet.bookmarkapp.order.service;
 
 import com.jeet.bookmarkapp.order.message.OrderCreated;
 import com.jeet.bookmarkapp.order.message.OrderDispatched;
-import org.apache.kafka.common.protocol.types.Field;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 class OrderServiceTest {
 

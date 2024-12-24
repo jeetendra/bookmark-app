@@ -16,13 +16,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.webauthn.api.AuthenticatorResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -30,19 +28,15 @@ import java.util.Set;
 public class AuthController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     AuthenticationManager authenticationManager;
-
     @Autowired
     UserDetailsService userDetailsService;
-
     @Autowired
     JwtService jwtService;
-
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> doLogin(@Valid @RequestBody LoginRequest user) {

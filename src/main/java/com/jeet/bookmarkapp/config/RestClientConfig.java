@@ -10,7 +10,7 @@ import org.springframework.web.client.RestClient;
 public class RestClientConfig {
 
     @Bean
-    public RestClient restClient(RestClient.Builder builder, @Value("${http.baseurl}") String url ) {
+    public RestClient restClient(RestClient.Builder builder, @Value("${http.baseurl}") String url) {
         return builder.baseUrl(url).build();
     }
 

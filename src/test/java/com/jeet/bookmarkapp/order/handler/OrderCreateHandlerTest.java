@@ -3,15 +3,11 @@ package com.jeet.bookmarkapp.order.handler;
 import com.jeet.bookmarkapp.order.message.OrderCreated;
 import com.jeet.bookmarkapp.order.service.OrderService;
 import com.jeet.bookmarkapp.util.OrderEventData;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class OrderCreateHandlerTest {

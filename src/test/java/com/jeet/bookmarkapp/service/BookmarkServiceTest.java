@@ -3,7 +3,6 @@ package com.jeet.bookmarkapp.service;
 import com.jeet.bookmarkapp.entity.Bookmark;
 import com.jeet.bookmarkapp.entity.User;
 import com.jeet.bookmarkapp.repository.BookmarkRepository;
-import com.jeet.bookmarkapp.repository.UserRepository;
 import com.jeet.bookmarkapp.service.impl.BookmarkServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,9 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-//import static org.hamcrest.Matchers.any;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
 
 public class BookmarkServiceTest implements AutoCloseable {
 
@@ -60,7 +57,6 @@ public class BookmarkServiceTest implements AutoCloseable {
 
         //ASSERT
         Assertions.assertEquals(3, paginatedBookmarks.getTotalElements());
-
 
 
     }

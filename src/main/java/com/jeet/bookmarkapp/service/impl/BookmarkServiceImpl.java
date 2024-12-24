@@ -3,7 +3,6 @@ package com.jeet.bookmarkapp.service.impl;
 import com.jeet.bookmarkapp.entity.Bookmark;
 import com.jeet.bookmarkapp.entity.User;
 import com.jeet.bookmarkapp.repository.BookmarkRepository;
-import com.jeet.bookmarkapp.repository.UserRepository;
 import com.jeet.bookmarkapp.service.BookmarkService;
 import com.jeet.bookmarkapp.service.UserService;
 import org.springframework.data.domain.Page;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookmarkServiceImpl implements BookmarkService {
@@ -37,7 +35,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
         User user = userService.findByUsername(name);
 
-        if(user == null) {
+        if (user == null) {
             throw new RuntimeException("User not found");
         }
         bookmark.setAuthor(user);

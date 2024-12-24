@@ -27,7 +27,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Bookmark> bookmarks =  new HashSet<>();
+    private Set<Bookmark> bookmarks = new HashSet<>();
 
     public void addBookmark(Bookmark bookmark) {
         bookmarks.add(bookmark);
